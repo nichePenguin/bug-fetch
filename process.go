@@ -36,6 +36,11 @@ func parse(data []byte) (Request, error) {
 			request.Filter.Tags[i] = strings.ToLower(tag)
 		}
 	}
+	if strings.TrimSpace(request.NameContains) != "" {
+		request.NameContains = strings.TrimSpace(strings.ToLower(request.NameContains));
+	} else {
+		request.NameContains = "";
+	}
 	return request, nil
 }
 
@@ -62,8 +67,8 @@ func filter(entry *BugEntry, filter *Filter) bool {
 		return true
 	}
 
-	if strings.TrimSpace(filter.NameContains) != "" {
-		if !strings.Contains(entry.Name, filter.NameContains) && !strings.Contains(entry.LatinName, filter.NameContains) {
+	if filter.NameContains != "" {
+		if !strings.Contains(strings.ToLower(entry.Name), filter.NameContains) && !strings.Contains(strings.ToLower(entry.LatinName), filter.NameContains) {
 			return false
 		}
 	}

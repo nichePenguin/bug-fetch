@@ -35,11 +35,12 @@ func parse(data []byte) (Request, error) {
 		for i, tag := range request.Filter.Tags {
 			request.Filter.Tags[i] = strings.ToLower(tag)
 		}
-	}
-	if strings.TrimSpace(request.NameContains) != "" {
-		request.NameContains = strings.TrimSpace(strings.ToLower(request.NameContains));
-	} else {
-		request.NameContains = "";
+		if strings.TrimSpace(request.Filter.NameContains) != "" {
+			request.Filter.NameContains = strings.TrimSpace(strings.ToLower(request.Filter.NameContains))
+		} else {
+			request.Filter.NameContains = ""
+		}
+
 	}
 	return request, nil
 }

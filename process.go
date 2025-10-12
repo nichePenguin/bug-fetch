@@ -59,7 +59,15 @@ func process(req Request) (string, error) {
 		}
 	}
 
-	data, err := json.Marshal(res)
+	output := struct {
+		TotalCount uint       `json:"total_count"`
+		Items      []BugEntry `json:"items"`
+	}{}
+
+	output.Items = res
+	output.TotalCount = uint(len(res))
+
+	data, err := json.Marshal(output)
 	return string(data), err
 }
 

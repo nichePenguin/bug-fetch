@@ -64,11 +64,21 @@ func process(req Request) (string, error) {
 		Items      []BugEntry `json:"items"`
 	}{}
 
-	output.Items = res
+	page := max(req.Page, 1)
+	output.Items = paginate(res, page, req.ItemsPerPage)
 	output.TotalCount = uint(len(res))
 
 	data, err := json.Marshal(output)
 	return string(data), err
+}
+
+func paginate[T any](data []T, page, perPage uint) []T {
+	start := (page - 1) * perPage
+	if start > uint(len(data)) {
+		return []T{}
+	}
+	end := min(start+perPage, uint(len(data)))
+	return data[start:end]
 }
 
 func filter(entry *BugEntry, filter *Filter) bool {

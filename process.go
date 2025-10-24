@@ -24,6 +24,7 @@ type BugEntry struct {
 	Name      string   `json:"name"`
 	LatinName string   `json:"latin"`
 	Tags      []string `json:"tags"`
+	By        string   `json:"by"`
 }
 
 func parse(data []byte) (Request, error) {
